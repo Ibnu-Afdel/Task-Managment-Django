@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "django-insecure-82ro(x29s=c#kt!hr%bz57ny22)t$js62^2@793b0dclv&h@pr"
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
