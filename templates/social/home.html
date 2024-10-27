@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+
+
+ <!-- Page Content -->
+ <section class="py-5">
+    <div class="container">
+      <br>
+      <br>
+      
+  
+      <h2 class="fw-light">Programming With Intelligence </h2>
+        <p>A place where you can supercharge your productivity and
+           connect with like-minded individuals.  Imagine a platform
+            that lets you share your most efficient workflows and discover 
+            new hacks from others.  Organize your to-do list with ease, 
+             track your progress, and stay motivated with a vibrant community 
+             cheering you on. That's the magic of this site !!! </p>
+    </div>
+  </section>
+  
+
+
+
+
+
+<div class="container bg-light p-4">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card-deck">
+          <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+              <h3 class="mb-0">Latest Posts</h3>
+              <div class="card-header bg-primary text-white d-flex justify-content-end align-items-center gap-1" >
+              <a href="{% url 'create' %}" class="btn btn-light font-weight-bold">Post</a>
+              <a href="{% url 'all_post' %}" class="btn btn-info font-weight-bold text-white">ALL Posts</a>
+            </div>
+            </div>
+            <div class="card-body">
+              {% if tasks %}
+              <div class="row">
+                {% for task in tasks %}
+                <div class="col-md-6 mb-4">
+                  <div class="card border-0 shadow">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ task.title }}</h5>
+                      <p class="card-text">{{ task.short_body }}</p>
+                      <div class="mt-3">
+                        Categories: 
+                        <div class="d-inline">
+                          {% for category in task.categories.all %}
+                          <span class="badge badge-secondary">{{ category }}</span>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                      <small>
+                        Posted by: {{ task.posted_by.username }}<br>
+                        Posted in: {{ task.posted_in }}
+                      </small>
+                      <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                          <a href="{% url 'detail' task.id %}" class="btn btn-sm btn-outline-primary">Read More</a>
+                        </li>
+                        {% if task.posted_by == user %}
+                        <li class="list-inline-item">
+                          <a href="{% url 'update' task.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a href="{% url 'delete' task.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% else %}
+              <p>No tasks found.</p>
+              {% endif %}
+            </div>
+            {% comment %} <div class="card-footer bg-primary text-white">
+              <div class="sidebar">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="card-title">Categories</h5>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item border-0">
+                        {% for category in categories %}
+                        <a href="?category={{ category.id }}" class="btn btn-outline-primary">{{ category.name }}</a>
+                        {% endfor %}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div> {% endcomment %}
+          </div>
+        </div>
+      </div>
+      
+
+
+      
+      <div class="col-md-4">
+        <div class="card bg-secondary text-white">
+            <div class="card-header">
+                User's Tasks
+            </div>
+            {% if user.is_authenticated %}
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for personal_task in personal_tasks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">{{ personal_task.title }}</h5>
+                            <hr class="my-1">
+                            <p class="mb-1">Priority: {{ personal_task.priority }}</p>
+                        </div>
+                        <div>
+                            <a href=" {% url 'detail_task' personal_task.pk %} " class="btn btn-primary btn-sm">Show</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <p>LogIn</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    
+
+
+
+
+      
+      {% comment %} <div class="col-md-4">
+        <div class="card bg-secondary text-white">
+          <div class="card-header">
+            User's Tasks
+          </div>
+          <div class="card-body">
+            <ul class="list-group">
+              {% for personal_task in personal_tasks %}
+            <a>  <li class="list-group-item d-flex justify-content-between align-items-center">
+                <p>Title : {{ personal_task.title }}</p> <br>
+                <p> Priority :{{ personal_task.priority }}</p> <br>
+              </li></a>
+              
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div> {% endcomment %}
+
+
+    </div>
+  </div>
+                    
+
+
+
+
+
+
+
+{% comment %} <div class="container bg-dark p-4">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card-deck">
+          <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+              <h3 class="mb-0">Latest Posts</h3>
+              <a href="{% url 'create' %}" class="btn btn-light font-weight-bold">Add Task</a>
+            </div>
+            <div class="card-body">
+              {% if tasks %}
+              <div class="row">
+                {% for task in tasks %}
+                <div class="col-md-6 mb-4">
+                  <div class="card border-0 shadow">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ task.title }}</h5>
+                      <p class="card-text">{{ task.short_body }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                      <small>
+                        Posted by: {{ task.posted_by.username }}<br>
+                        Posted in: {{ task.posted_in }}
+                      </small>
+                      <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                          <a href="{% url 'detail' task.id %}" class="btn btn-sm btn-outline-primary">Read More</a>
+                        </li>
+                        {% if task.posted_by == user %}
+                        <li class="list-inline-item">
+                          <a href="{% url 'update' task.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a href="{% url 'delete' task.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% else %}
+              <p>No tasks found.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> {% endcomment %}
+    
+
+
+
+
+
+
+{% comment %} <div class="container">
+  <div class="row">
+      <div class="col-md-8">
+          <div class="card mb-3">
+              <div class="card-header bg-primary text-white d-flex justify-content-between">
+                  <h3 class="mb-0">Latest Posts</h3>
+                  <a href=" {% url 'create' %} " class="btn btn-light font-weight-bold" >Add Task</a>
+              </div>
+              <div class="card-body">
+                {% if tasks %}
+                  {% for task in tasks %}
+                  <div class="card mb-3">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ task.title }}</h5>
+                          <p class="card-text">{{ task.short_body }}</p>
+                      </div>
+                      <div class="card-footer text-muted">
+                          <small>
+                              Posted by: {{ task.posted_by.username }}<br>
+                              Posted in: {{ task.posted_in }}
+                          </small>
+                          <li class="list-group-item">
+                            <a href=" {% url 'detail' task.id %} " >Read More</a>
+                        </li>
+                        {% if task.posted_by == user %}
+                        <li class="list-group-item">
+                            <a href=" {% url 'update' task.id %} " >Edit</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href=" {% url 'delete' task.id %} " >Delete</a>
+                        </li>
+                        {% else %}
+                        {% endif %}
+                      </div>
+                  </div>
+                  {% endfor %}
+                  {% else %}
+    <p>No tasks found.</p>
+{% endif %}
+              </div>
+          </div>
+      </div> {% endcomment %}
+
+
+
+      {% comment %} <div class="col-md-4">
+        <div class="sidebar">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Categories</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for category in categories %}
+                        <li class="list-group-item border-0">
+                            <a href="?category={{ category.id }}" class="btn btn-outline-primary btn-block">{{ category.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+    
+  
+{% endblock content %}

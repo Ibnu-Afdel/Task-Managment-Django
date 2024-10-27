@@ -1,0 +1,67 @@
+ {% extends "base.html" %}
+{% block content %}
+{% comment %} {% if tasks.owner == user %} {% endcomment %}
+
+<br>
+<br>
+
+<div class="container">
+    <div class="filter-sidebar">
+        <h1>My Task Dashboard</h1>
+
+        <div class="filter-buttons">
+            <a href="?filter=latest" role="button" class="btn btn-primary {% if selected_filter == 'latest' %}active{% endif %}">Latest</a>
+            <a href="?filter=oldest" role="button" class="btn btn-primary {% if selected_filter == 'oldest' %}active{% endif %}">Oldest</a>
+            <a href="?filter=priority" role="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Priority (Highest First)
+            </a>
+        </div>
+    </div>
+<br>
+<br>
+    <div class="table-container">
+       
+        <h2>Total Tasks: {{ total_tasks }}</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Created In</th>
+                    <th scope="col">Detail In</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <br>
+                <a  class='btn btn-info text-white' href=" {% url 'create_task' %} ">Add</a>
+                <br>
+                <br>
+                
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    
+                    <td><a  class='btn btn-sm btn-outline-secondary' href=" {% url 'update_task' task.pk %} ">Edit</a></td>
+                    <td><a class='btn btn-sm btn-outline-danger' href=" {% url 'delete_task' task.pk %} ">Delete</a></td>
+                    <td>{{ task.priority_display }}</td>
+                    <td>{{ task.created_in }}</td>
+                    <td><a class='btn btn-sm btn-outline-info' href=" {% url 'detail_task' task.pk %} ">Detail</a></td>
+                   
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% comment %} {% else %}
+
+<p>Cant See</p>
+
+{% endif %} {% endcomment %}
+
+
+{% endblock content %} 

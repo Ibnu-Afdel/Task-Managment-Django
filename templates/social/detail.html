@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Detail{% endblock title %}
+
+{% block content %}
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-light mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0 font-weight-bold">Title : {{ task_detail.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ task_detail.short_body }}</p>
+                    <hr>
+                    <br>
+                    <p class="card-text">{{ task_detail.long_body }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <small>Posted by: {{ task_detail.posted_by.username }}</small><br>
+                            <small>Posted in: {{ task_detail.posted_in }}</small><br>
+                            <small>Posted by id: {{ task_detail.posted_by.userid }}</small>
+                        </div>
+                        <div>
+                            <a href="" class="btn btn-sm btn-outline-secondary">Comment</a>
+                            <a href="{% url 'all_post' %}" class="btn btn-sm btn-outline-primary">Back to Posts</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Add a Comment</h2>
+<form method='POST'>
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+    <button class="btn btn-success ml-2" type="submit">Save</button> 
+</form>
+<br>
+
+<div class="card">
+    <div class="card-body"> 
+        {% if task_detail.posted_by.pk == request.user.pk %} 
+            {% comment %} <a href=" {{ edit_url }} ">Edit</a>  {% endcomment %}
+            {% comment %} <a href= "{{ delete_url }}" >Delete</a>  {% endcomment %}
+        {% endif %}  
+    </div> 
+    <div class="card-footer"> 
+        <h3>Comments</h3>
+        {% for comment in task_detail.comment_set.all %} 
+            <p> 
+                <span class="fw-bold">{{ comment.commenter.username }} &middot;</span> 
+                {{ comment }} 
+            </p> 
+        {% endfor %} 
+    </div> 
+</div>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Detail{% endblock title %}
+
+{% block content %}
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-light mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0 font-weight-bold">Title : {{ task_detail.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ task_detail.short_body }}</p>
+                    <hr>
+                    <br>
+                    <p class="card-text">{{ task_detail.long_body }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <small>Posted by: {{ task_detail.posted_by.username }}</small><br>
+                            <small>Posted in: {{ task_detail.posted_in }}</small><br>
+                            <small>Posted by id: {{ task_detail.posted_by.userid }}</small>
+                        </div>
+                        <div>
+                            <a href="" class="btn btn-sm btn-outline-secondary">Comment</a>
+                            <a href="{% url 'all_post' %}" class="btn btn-sm btn-outline-primary">Back to Posts</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<h2>Add a Comment</h2>
+<form method='POST'>
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+    <button class="btn btn-success ml-2" type="submit">Save</button> 
+</form>
+
+
+<div class="card-body"> 
+   {{ task_detail.short_body }} 
+    {% if task_detail.posted_by.pk == request.user.pk %} 
+<a href="">Edit</a> 
+<a href="">Delete</a> 
+    {% endif %}  
+</div> 
+<div class="card-footer"> 
+    {% for comment in task_detail.comment_set.all %} 
+<p> 
+<span class="fw-bold"> 
+        {{ comment.commenter.username }} &middot; 
+</span> 
+      {{ comment }} 
+</p> 
+    {% endfor %} 
+</div> 
+</div> 
+
+{% endblock content %} {% endcomment %}

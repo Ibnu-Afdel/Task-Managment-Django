@@ -1,0 +1,84 @@
+
+{% extends "base.html" %}
+
+{% block title %}Detail{% endblock title %}
+
+{% block content %}
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-light mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0 font-weight-bold">{{ model.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ model.body }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <small>
+                                Username : {{ model.owner.username }}<br>
+                                Posted in: {{ model.created_in }}<br>
+                                Your id : {{ model.owner.userid }}<br>
+                                Due Date : {{ model.due_date }}<br>
+                                Priority : {{ model.priority }}<br>
+                                Post number : {{ task_number }}
+                            </small>
+                        </div>
+                        <div>
+                            {% comment %} <a href="" class="btn btn-sm btn-outline-secondary">Comment</a> {% endcomment %}
+                            <a href="{% url 'home' %}" class="btn btn-sm btn-outline-primary">Back to Home</a>
+                            <a href="{% url 'dashboard' %}" class="btn btn-sm btn-outline-secondary">Go to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% comment %} 
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-8">
+          <div class="card mb-3">
+              <div class="card-header bg-primary text-white">
+                  <h3 class="mb-0">Detail : {{ model.title }}</h3>
+
+
+              </div>
+              <div class="card-body">
+                {% if model %}
+                  <div class="card mb-3">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ model.title }}</h5>
+                          <p class="card-text">{{ model.body }}</p>
+                      </div>
+                      <div class="card-footer text-muted">
+                          <small>
+                              Username : {{ model.owner.username }}<br>
+                              Posted in: {{ model.created_in }}<br>
+                              Your id : {{ model.owner.userid }}<br>
+                              Due Date : {{ model.due_date }}<br>
+                              Priority : {{ model.priority }}<br>
+                              Post number : {{ task_number }}
+                          </small>
+                      </div>
+                  </div>
+                  {% else %}
+    <p>No tasks found.</p>
+{% endif %}
+              </div>
+          </div>
+      </div>
+    </div>
+</div>
+  
+{% endblock content %}
+
+
+ {% endcomment %}
